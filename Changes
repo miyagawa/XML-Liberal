@@ -1,5 +1,9 @@
 Revision history for Perl extension XML::Liberal
 
+0.03  2006-03-06T01:21:04Z
+        - Throw an exception when there's no remedy found
+
+
 0.02  2006-03-06T01:17:55Z
         - Added EntityRef pattern
 

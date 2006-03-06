@@ -1,9 +1,10 @@
 package XML::Liberal;
 
 use strict;
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 use base qw( Class::Accessor );
+use Carp;
 use UNIVERSAL::require;
 use Module::Pluggable::Fast
     name => 'remedies',
@@ -54,6 +55,8 @@ sub parse_string {
             }
         }
     }
+
+    Carp::croak($@) if !$doc;
 
     return $doc;
 }
