@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Liberal
 
+0.06  2006-03-06T06:48:55Z
+        - Don't replace & used in X(HT)ML entities
+
 0.05  2006-03-06T05:27:12Z
         - Falls back to UTF-8 explicitly first
 
