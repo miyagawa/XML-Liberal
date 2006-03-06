@@ -61,6 +61,18 @@ sub parse_string {
     return $doc;
 }
 
+sub parse_file {
+    my($self, $file) = @_;
+    open my $fh, "<", $file or croak "$file: $!";
+    $self->parse_fh($fh);
+}
+
+sub parse_fh {
+    my($self, $fh) = @_;
+    my $xml = join '', <$fh>;
+    $self->parse_string($xml);
+}
+
 1;
 __END__
 
