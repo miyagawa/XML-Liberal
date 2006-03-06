@@ -25,7 +25,7 @@ sub handle_error {
     my @errors = split /\n/, $error;
 
     # TODO: this if ... elsif should be pluggable, but depends on drivers
-    if ($errors[0] =~ /^:(\d+): parser error : EntityRef: expecting ';'/) {
+    if ($errors[0] =~ /^:(\d+): parser error : (?:EntityRef: expecting ';'|xmlParseEntityRef: no name)/) {
         my $line = $1;
         my $pos = $self->get_pos($errors[2]);
         defined($pos) or Carp::carp("Can't get pos from $error"), return;
