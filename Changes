@@ -1,5 +1,11 @@
 Revision history for Perl extension XML::Liberal
 
+0.05  2006-03-06T05:27:12Z
+        - Falls back to UTF-8 explicitly first
+
+0.04  2006-03-06T05:17:08Z
+        - Added parse_fh and parse_file
+
 0.03  2006-03-06T01:21:04Z
         - Throw an exception when there's no remedy found
 

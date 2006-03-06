@@ -17,7 +17,9 @@ sub apply {
         Encode::from_to($$xml_ref, $enc->name, "UTF-8");
         return;
     } else {
-        Carp::carp("Can't guess encoding of XML using ", join(", ", @suspects), " line $self->{line}: $self->{error}");
+        # fallback to UTF-8 and do roundtrip conversion
+        my $xml = Encode::encode("utf-8", Encode::decode("utf-8", $$xml_ref));
+        $$xml_ref = $xml;
     }
 }
 
