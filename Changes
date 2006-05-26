@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Liberal
 
+0.08  2006-05-26 16:53:00 JST
+        - Added globally_override method to override XML::LibXML->new globally
+
 0.07  2006-05-26
         - New remedy UndeclaredNS to rescue undeclared namespaces found in Atom/RSS feeds.
 

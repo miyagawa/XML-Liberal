@@ -1,7 +1,7 @@
 package XML::Liberal;
 
 use strict;
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use base qw( Class::Accessor );
 use Carp;
@@ -28,6 +28,16 @@ sub new {
         driver => $subclass->new(%param),
         max_fallback => $max_fb,
     }, $class;
+}
+
+sub globally_override {
+    my $class = shift;
+    my $driver = shift || 'LibXML';
+
+    my $subclass = "XML::Liberal::$driver";
+       $subclass->require or die $@;
+
+    $subclass->do_globally_override;
 }
 
 sub driver { $_[0]->{driver} }
@@ -87,6 +97,14 @@ XML::Liberal - Super liberal XML parser that parses broken XML
   my $parser = XML::Liberal->new('LibXML');
   my $doc = $parser->parse_string($broken_xml);
 
+  # or, override XML::LibXML->new globally
+  use XML::LibXML;
+  use XML::Liberal;
+
+  XML::Liberal->globally_override('LibXML');
+
+  my $parser = XML::LibXML->new; # isa XML::Liberal
+
 =head1 DESCRIPTION
 
 XML::Liberal is a super liberal XML parser that can fix broken XML
@@ -94,6 +112,42 @@ stream and create a DOM node out of it.
 
 B<This module is ALPHA SOFTWARE> and its API and internal class
 layouts etc. are subject to change later.
+
+=head1 METHODS
+
+=over 4
+
+=item new
+
+  $parser = XML::Liberal->new('LibXML');
+
+Creates an XML::Liberal object. Currently accepted driver is only I<LibXML>.
+
+=item globally_override
+
+  XML::Liberal->globally_override('LibXML');
+
+Override XML::LibXML's new method globally, to create XML::Liberal
+object instead of XML::LibXML parser.
+
+This is considered B<so evil>, but would be useful if you have
+existent software/library that uses XML::LibXML inside and change the
+behaviour globally to use Liberal parser instead, with a single method
+call.
+
+For example, the following code lets XML::Atom's parser use Liberal
+LibXML parser.
+
+  use URI;
+  use XML::Atom::Feed;
+  use XML::Liberal;
+
+  XML::Liberal->globally_override('LibXML');
+
+  # XML::Atom calls XML::LibXML->new, which is aliased to Liberal now
+  my $feed = XML::Atom::Feed->new(URI->new('http://example.com/atom.xml'));
+
+=back
 
 =head1 BUGS
 

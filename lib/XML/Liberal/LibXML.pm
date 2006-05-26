@@ -6,10 +6,25 @@ use XML::LibXML;
 
 use base qw( XML::Liberal::Driver );
 
+our $XML_LibXML_new;
+
+sub do_globally_override {
+    my $class = shift;
+
+    no warnings 'redefine';
+    unless ($XML_LibXML_new) {
+        $XML_LibXML_new = \&XML::LibXML::new;
+        *XML::LibXML::new = sub { XML::Liberal->new('LibXML') };
+    }
+
+    1;
+}
+
 sub init {
     my $self = shift;
     $self->SUPER::init();
-    $self->{parser} = XML::LibXML->new;
+    $self->{parser} = $XML_LibXML_new
+        ? $XML_LibXML_new->('XML::LibXML') : XML::LibXML->new;
 }
 
 sub parse_string {
