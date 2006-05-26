@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Liberal
 
+0.09  2006-05-26 17:05:00 JST
+        - Added more namespaces. Thanks to drry
+
 0.08  2006-05-26 16:53:00 JST
         - Added globally_override method to override XML::LibXML->new globally
 
