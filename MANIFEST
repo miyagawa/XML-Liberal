@@ -7,11 +7,11 @@ lib/XML/Liberal/Remedy/EntityRef.pm
 lib/XML/Liberal/Remedy/HTMLEntity.pm
 lib/XML/Liberal/Remedy/NotUTF8.pm
 lib/XML/Liberal/Remedy/StandaloneAttribute.pm
+lib/XML/Liberal/Remedy/UndeclaredNS.pm
 lib/XML/Liberal/Remedy/UnquotedAttribute.pm
 lib/XML/Liberal/Remedy/XHTMLEmptyTag.pm
 Makefile.PL
 MANIFEST			This list of files
-META.yml			Module meta-data (added by MakeMaker)
 t/00_compile.t
 t/01_bad.t
 t/bad/BAD-ampersand.xml
@@ -51,5 +51,7 @@ t/bad/BAD-chr-7.xml
 t/bad/BAD-chr-8.xml
 t/bad/BAD-html.xml
 t/bad/BAD-lowascii.xml
+t/bad/BAD-undeclared-ns-element.xml
+t/bad/BAD-undeclared-ns.xml
 t/bad/BAD-unquoted-nbsp.xml
 t/bad/BAD-unquoted.xml

@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Liberal
 
+0.07  2006-05-26
+        - New remedy UndeclaredNS to rescue undeclared namespaces found in Atom/RSS feeds.
+
 0.06  2006-03-06T06:48:55Z
         - Don't replace & used in X(HT)ML entities
 

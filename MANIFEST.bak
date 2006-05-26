@@ -7,6 +7,7 @@ lib/XML/Liberal/Remedy/EntityRef.pm
 lib/XML/Liberal/Remedy/HTMLEntity.pm
 lib/XML/Liberal/Remedy/NotUTF8.pm
 lib/XML/Liberal/Remedy/StandaloneAttribute.pm
+lib/XML/Liberal/Remedy/UndeclaredNS.pm
 lib/XML/Liberal/Remedy/UnquotedAttribute.pm
 lib/XML/Liberal/Remedy/XHTMLEmptyTag.pm
 Makefile.PL
@@ -50,6 +51,7 @@ t/bad/BAD-chr-7.xml
 t/bad/BAD-chr-8.xml
 t/bad/BAD-html.xml
 t/bad/BAD-lowascii.xml
+t/bad/BAD-undeclared-ns-element.xml
+t/bad/BAD-undeclared-ns.xml
 t/bad/BAD-unquoted-nbsp.xml
 t/bad/BAD-unquoted.xml
-META.yml                                 Module meta-data (added by MakeMaker)

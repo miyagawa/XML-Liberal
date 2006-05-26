@@ -68,6 +68,15 @@ sub handle_error {
         $remedy->attribute($attribute);
         return $remedy;
     }
+    elsif ($errors[0] =~ /^:(\d+): namespace error : Namespace prefix (\S+)(?: for (\S+))? on (\S+) is not defined/) {
+        my($line, $prefix, $attr, $element) = ($1, $2, $3, $4);
+        my $pos = $self->get_pos($errors[2]);
+        defined($pos) or Carp::carp("Can't get pos from $error"), return;
+
+        my $remedy = XML::Liberal::Remedy::UndeclaredNS->new($self, $line, $pos, $error);
+        $remedy->prefix($prefix);
+        return $remedy;
+    }
 
     #warn $_[1];
     return;
