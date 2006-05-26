@@ -6,6 +6,7 @@ our %namespaces = (
     rdf     => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     dc      => "http://purl.org/dc/elements/1.1/",
     syn     => "http://purl.org/rss/1.0/modules/syndication/",
+    sy      => "http://purl.org/rss/1.0/modules/syndication/",
     admin   => "http://webns.net/mvcb/",
     content => "http://purl.org/rss/1.0/modules/content/",
     cc      => "http://web.resource.org/cc/",
@@ -19,6 +20,10 @@ our %namespaces = (
     nf      => "http://purl.org/atompub/nofollow/1.0",
     slash   => "http://purl.org/rss/1.0/modules/slash/",
     thr     => "http://purl.org/syndication/thread/1.0",
+    rdfs    => "http://www.w3.org/2000/01/rdf-schema#",
+    dcterms => "http://purl.org/dc/terms/",
+    xhtml   => "http://www.w3.org/1999/xhtml",
+    atom    => "http://www.w3.org/2005/Atom",
 );
 
 sub prefix {
