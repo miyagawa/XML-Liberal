@@ -1,7 +1,7 @@
 package XML::Liberal;
 
 use strict;
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use base qw( Class::Accessor );
 use Carp;
@@ -12,7 +12,15 @@ use Module::Pluggable::Fast
     require => 1;
 
 __PACKAGE__->remedies(); # load remedies now
-__PACKAGE__->mk_accessors(qw( max_fallback guess_encodings debug ));
+__PACKAGE__->mk_accessors(qw( max_fallback guess_encodings ));
+
+our $Debug;
+
+sub debug {
+    my $self = shift;
+    $self->{debug} = shift if @_;
+    $self->{debug} || $XML::Liberal::Debug;
+}
 
 sub new {
     my $class = shift;

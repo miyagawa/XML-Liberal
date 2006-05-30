@@ -58,6 +58,11 @@ sub handle_error {
         $remedy->guess_encodings($self->guess_encodings);
         return $remedy;
     }
+    elsif ($errors[0] =~ /^input conversion failed due to input error/) {
+        my $remedy = XML::Liberal::Remedy::InvalidEncoding->new($self, 0, undef, $error);
+        $remedy->guess_encodings($self->guess_encodings);
+        return $remedy;
+    }
     elsif ($errors[0] =~ /^:(\d+): parser error : Entity 'nbsp' not defined/) {
         my $line = $1;
         my $pos = $self->get_pos($errors[2]);

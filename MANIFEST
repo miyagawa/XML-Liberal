@@ -4,6 +4,7 @@ lib/XML/Liberal/LibXML.pm
 lib/XML/Liberal/Remedy.pm
 lib/XML/Liberal/Remedy/EntityRef.pm
 lib/XML/Liberal/Remedy/HTMLEntity.pm
+lib/XML/Liberal/Remedy/InvalidEncoding.pm
 lib/XML/Liberal/Remedy/NotUTF8.pm
 lib/XML/Liberal/Remedy/StandaloneAttribute.pm
 lib/XML/Liberal/Remedy/UndeclaredNS.pm
@@ -49,6 +50,7 @@ t/bad/BAD-chr-5.xml
 t/bad/BAD-chr-6.xml
 t/bad/BAD-chr-7.xml
 t/bad/BAD-chr-8.xml
+t/bad/BAD-euc.xml
 t/bad/BAD-html.xml
 t/bad/BAD-lowascii.xml
 t/bad/BAD-undeclared-ns-element.xml

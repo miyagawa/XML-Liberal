@@ -1,5 +1,11 @@
 Revision history for Perl extension XML::Liberal
 
+0.11  2006-05-30 20:19:23 JST
+        - Added new Remedy::InvalidEncoding to hack euc-jp/shift_jis
+          gaiji mapped to a valid UTF-8 bytes, then reparse with
+          encoding="utf-8" header. (Reported by hsbt)
+        - Added $XML::Liberall::Debug variable for easy debugging
+
 0.10  2006-05-30 18:02:51 JST
         - Fixed globally_override to work with XML::RSS::LibXML and other tools that calls XML::LibXML::Parser methods.
         - reorgainzed class strucure to make it simpler.
