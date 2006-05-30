@@ -24,6 +24,10 @@ our %namespaces = (
     dcterms => "http://purl.org/dc/terms/",
     xhtml   => "http://www.w3.org/1999/xhtml",
     atom    => "http://www.w3.org/2005/Atom",
+    media   => "http://search.yahoo.com/mrss",
+    hatena  => "http://www.hatena.ne.jp/info/xmlns#",
+    'apple-wallpapers' => "http://www.apple.com/ilife/wallpapers",
+    itunes  => "http://www.itunes.com/dtds/podcast-1.0.dtd",
 );
 
 sub prefix {
@@ -39,7 +43,7 @@ sub apply {
     my $prefix = $self->prefix;
     my $ns = $namespaces{$prefix} || 'http://example.org/unknown/$self->{prefix}#';
 
-    my $match = $$xml_ref =~ s!^(<\?xml .*?\?>\s+<.*?)>!$1 xmlns:$prefix="$ns">!s;
+    my $match = $$xml_ref =~ s!^(<\?xml .*?\?>\s*<.*?)>!$1 xmlns:$prefix="$ns">!s;
     return if $match;
 
     Carp::carp("Can't find root element");

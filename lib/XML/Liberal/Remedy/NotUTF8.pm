@@ -11,7 +11,7 @@ sub apply {
     my $self = shift;
     my($xml_ref) = @_;
 
-    my @suspects = @{ $self->guess_encodings };
+    my @suspects = @{ $self->guess_encodings || [ qw(euc-jp shift_jis utf-8) ] };
     my $enc = guess_encoding($$xml_ref, @suspects);
     if (ref($enc)) {
         Encode::from_to($$xml_ref, $enc->name, "UTF-8");

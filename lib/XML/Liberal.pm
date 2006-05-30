@@ -1,7 +1,7 @@
 package XML::Liberal;
 
 use strict;
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 use base qw( Class::Accessor );
 use Carp;
@@ -12,7 +12,7 @@ use Module::Pluggable::Fast
     require => 1;
 
 __PACKAGE__->remedies(); # load remedies now
-__PACKAGE__->mk_accessors(qw( max_fallback debug ));
+__PACKAGE__->mk_accessors(qw( max_fallback guess_encodings debug ));
 
 sub new {
     my $class = shift;
@@ -22,12 +22,9 @@ sub new {
        $subclass->require or die $@;
 
     my %param = @_;
-    my $max_fb = delete $param{max_fallback} || 15;
+    $param{max_fallback} = 15 unless defined $param{max_fallback};
 
-    bless {
-        driver => $subclass->new(%param),
-        max_fallback => $max_fb,
-    }, $class;
+    $subclass->new(%param);
 }
 
 sub globally_override {
@@ -37,10 +34,8 @@ sub globally_override {
     my $subclass = "XML::Liberal::$driver";
        $subclass->require or die $@;
 
-    $subclass->do_globally_override;
+    $subclass->globally_override;
 }
-
-sub driver { $_[0]->{driver} }
 
 sub parse_string {
     my $self = shift;
@@ -51,12 +46,12 @@ sub parse_string {
 
     TRY: {
         eval {
-            $doc = $self->driver->parse_string($xml);
+            $doc = $self->{parser}->parse_string($xml);
         };
         last TRY if $doc || ($try++ > $self->max_fallback);
 
         if ($@) {
-            my $remedy = $self->driver->handle_error($@);
+            my $remedy = $self->handle_error($@);
             if ($remedy) {
                 warn "try fixing with ", ref($remedy) if $self->debug;
                 $remedy->apply(\$xml);
@@ -81,6 +76,18 @@ sub parse_fh {
     my($self, $fh) = @_;
     my $xml = join '', <$fh>;
     $self->parse_string($xml);
+}
+
+our $AUTOLOAD;
+sub AUTOLOAD {
+    my($self, @args) = @_;
+    (my $meth = $AUTOLOAD) =~ s/.*:://;
+    $self->{parser}->$meth(@args);
+}
+
+sub DESTROY {
+    my $self = shift;
+    delete $self->{parser};
 }
 
 1;

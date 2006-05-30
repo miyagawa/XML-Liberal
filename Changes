@@ -1,5 +1,9 @@
 Revision history for Perl extension XML::Liberal
 
+0.10  2006-05-30 18:02:51 JST
+        - Fixed globally_override to work with XML::RSS::LibXML and other tools that calls XML::LibXML::Parser methods.
+        - reorgainzed class strucure to make it simpler.
+
 0.09  2006-05-26 17:05:00 JST
         - Added more namespaces. Thanks to drry
 

@@ -1,6 +1,5 @@
 Changes
 lib/XML/Liberal.pm
-lib/XML/Liberal/Driver.pm
 lib/XML/Liberal/LibXML.pm
 lib/XML/Liberal/Remedy.pm
 lib/XML/Liberal/Remedy/EntityRef.pm

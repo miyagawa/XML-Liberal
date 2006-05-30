@@ -4,11 +4,11 @@ use strict;
 use Carp;
 use XML::LibXML;
 
-use base qw( XML::Liberal::Driver );
+use base qw( XML::Liberal );
 
 our $XML_LibXML_new;
 
-sub do_globally_override {
+sub globally_override {
     my $class = shift;
 
     no warnings 'redefine';
@@ -20,17 +20,15 @@ sub do_globally_override {
     1;
 }
 
-sub init {
-    my $self = shift;
-    $self->SUPER::init();
+sub new {
+    my $class = shift;
+    my %param = @_;
+
+    my $self = bless { %param }, $class;
     $self->{parser} = $XML_LibXML_new
         ? $XML_LibXML_new->('XML::LibXML') : XML::LibXML->new;
-}
 
-sub parse_string {
-    my $self = shift;
-    my($xml) = @_;
-    $self->{parser}->parse_string($xml);
+    $self;
 }
 
 sub handle_error {
@@ -96,6 +94,9 @@ sub handle_error {
     #warn $_[1];
     return;
 }
+
+# recover() is not useful for Liberal parser ... IMHO
+sub recover { }
 
 sub get_pos {
     my($self, $err) = @_;
