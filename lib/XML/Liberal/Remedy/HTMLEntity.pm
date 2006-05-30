@@ -12,9 +12,10 @@ sub apply {
     my $old = $$xml_ref;
     $$xml_ref = name2hex_xml($$xml_ref);
 
-    return if $$xml_ref ne $old;
+    return 1 if $$xml_ref ne $old;
 
     Carp::carp("Can't find named HTML entities, line $self->{line} pos $self->{pos}: $self->{error}");
+    return;
 }
 
 1;

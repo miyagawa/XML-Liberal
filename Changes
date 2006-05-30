@@ -5,6 +5,7 @@ Revision history for Perl extension XML::Liberal
           gaiji mapped to a valid UTF-8 bytes, then reparse with
           encoding="utf-8" header. (Reported by hsbt)
         - Added $XML::Liberall::Debug variable for easy debugging
+        - Don't redo parsing if remedy application failed.
 
 0.10  2006-05-30 18:02:51 JST
         - Fixed globally_override to work with XML::RSS::LibXML and other tools that calls XML::LibXML::Parser methods.

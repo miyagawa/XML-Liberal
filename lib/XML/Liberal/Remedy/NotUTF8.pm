@@ -15,11 +15,13 @@ sub apply {
     my $enc = guess_encoding($$xml_ref, @suspects);
     if (ref($enc)) {
         Encode::from_to($$xml_ref, $enc->name, "UTF-8");
-        return;
+        return 1;
     } else {
         # fallback to UTF-8 and do roundtrip conversion
+        my $old = $$xml_ref;
         my $xml = Encode::encode("utf-8", Encode::decode("utf-8", $$xml_ref));
         $$xml_ref = $xml;
+        return $$xml_ref ne $old;
     }
 }
 

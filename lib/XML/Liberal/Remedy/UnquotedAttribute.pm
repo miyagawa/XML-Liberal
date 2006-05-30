@@ -20,9 +20,10 @@ sub apply {
     my $buffer = substr($$xml_ref, $index, min(64, length($$xml_ref) - 1));
        $buffer =~ s/^([^\s>]+)/"$1"/;
     substr($$xml_ref, $index, length($buffer), $buffer);
-    return;
+    return 1; # xxx
 
     Carp::carp("Can't find unquoted attribute in line $self->{line} pos $self->{pos}: $self->{error}");
+    return;
 }
 
 1;

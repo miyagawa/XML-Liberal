@@ -7,10 +7,11 @@ sub apply {
     my $self = shift;
     my($xml_ref) = @_;
     my $match = $$xml_ref =~ s/&(?!\w+;|#[a-fA-F0-9]+;)/&amp;/g;
-    return if $match;
+    return 1 if $match;
 
     # there's no &bar in this XML document ...?
     Carp::carp("Can't find unescaped &, line $self->{line} pos $self->{pos}: $self->{error}");
+    return;
 }
 
 1;

@@ -27,9 +27,10 @@ sub apply {
     my $buffer = substr($$xml_ref, $index, min(64, length($$xml_ref) - 1));
        $buffer =~ s/^\Q$attr\E/$attr="$attr"/;
     substr($$xml_ref, $index, length($buffer), $buffer);
-    return;
+    return 1; # xxx
 
     Carp::carp("Can't find standalone attribute '$attr' in line $self->{line} pos $self->{pos}: $self->{error}");
+    return;
 }
 
 1;

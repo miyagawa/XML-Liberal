@@ -62,9 +62,9 @@ sub parse_string {
             my $remedy = $self->handle_error($@);
             if ($remedy) {
                 warn "try fixing with ", ref($remedy) if $self->debug;
-                $remedy->apply(\$xml);
+                my $status = $remedy->apply(\$xml);
                 warn "--- remedy applied: $xml" if $self->debug;
-                redo TRY;
+                redo TRY if $status;
             }
         }
     }
