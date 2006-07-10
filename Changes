@@ -1,5 +1,11 @@
 Revision history for Perl extension XML::Liberal
 
+0.13  Sun Jul  9 22:03:35 JST 2006
+        - Added globally_unoverride method and Destructor object to hold in a lecical scope
+
+0.12  2006-06-28 06:50:00 CDT
+        - Fixed HTMLEntity handler to handle entities other than just nbsp.
+
 0.11  2006-05-30 20:19:23 JST
         - Added new Remedy::InvalidEncoding to hack euc-jp/shift_jis
           gaiji mapped to a valid UTF-8 bytes, then reparse with

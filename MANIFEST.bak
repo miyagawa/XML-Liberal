@@ -52,6 +52,7 @@ t/bad/BAD-chr-7.xml
 t/bad/BAD-chr-8.xml
 t/bad/BAD-euc.xml
 t/bad/BAD-html.xml
+t/bad/BAD-html2.xml
 t/bad/BAD-lowascii.xml
 t/bad/BAD-undeclared-ns-element.xml
 t/bad/BAD-undeclared-ns.xml

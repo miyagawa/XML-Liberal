@@ -1,7 +1,7 @@
 package XML::Liberal;
 
 use strict;
-our $VERSION = '0.11';
+our $VERSION = '0.13';
 
 use base qw( Class::Accessor );
 use Carp;
@@ -43,6 +43,14 @@ sub globally_override {
        $subclass->require or die $@;
 
     $subclass->globally_override;
+
+    if (defined wantarray) {
+        return XML::Liberal::Destructor->new(
+            sub { $subclass->globally_unoverride },
+        );
+    }
+
+    return;
 }
 
 sub parse_string {
@@ -98,6 +106,20 @@ sub DESTROY {
     delete $self->{parser};
 }
 
+package XML::Liberal::Destructor;
+
+sub new {
+    my($class, $callback) = @_;
+    bless { cb => $callback }, $class;
+}
+
+sub DESTROY {
+    my $self = shift;
+    $self->{cb}->();
+}
+
+package XML::Liberal;
+
 1;
 __END__
 
@@ -117,8 +139,19 @@ XML::Liberal - Super liberal XML parser that parses broken XML
   use XML::Liberal;
 
   XML::Liberal->globally_override('LibXML');
-
   my $parser = XML::LibXML->new; # isa XML::Liberal
+
+  # revert the global overrides back
+  XML::Liberal->globally_unoverride('LibXML');
+
+  # override XML::LibXML->new globally in a lexical scope
+  {
+     my $destructor = XML::LibXML->globally_override('LibXML');
+     my $parser = XML::LibXML->new; # isa XML::Liberal
+  }
+
+  # $destructor goes out of scope and global override doesn't take effect
+  my $parser = XML::LibXML->new; # isa XML::LibXML
 
 =head1 DESCRIPTION
 
@@ -161,6 +194,23 @@ LibXML parser.
 
   # XML::Atom calls XML::LibXML->new, which is aliased to Liberal now
   my $feed = XML::Atom::Feed->new(URI->new('http://example.com/atom.xml'));
+
+If you want the original XML::LibXML->new back in business, you can
+call I<globally_unoverride> method.
+
+  XML::Liberal->globally_override('LibXML');
+  # ... do something
+  XML::Liberal->globally_unoverride('LibXML');
+
+Or, you can hold the destructor object in a scalar variable and make
+the global override take effect only in a lexical scope:
+
+  {
+    my $destructor = XML::Liberal->globally_override('LibXML');
+    # ... do something
+  }
+
+  # now XML::LibXML::new is back as normal
 
 =back
 

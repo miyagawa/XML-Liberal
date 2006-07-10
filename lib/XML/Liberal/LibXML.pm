@@ -20,6 +20,18 @@ sub globally_override {
     1;
 }
 
+sub globally_unoverride {
+    my $class = shift;
+
+    no warnings 'redefine';
+    if ($XML_LibXML_new) {
+        *XML::LibXML::new = $XML_LibXML_new;
+        undef $XML_LibXML_new;
+    }
+
+    return 1;
+}
+
 sub new {
     my $class = shift;
     my %param = @_;
@@ -63,7 +75,7 @@ sub handle_error {
         $remedy->guess_encodings($self->guess_encodings);
         return $remedy;
     }
-    elsif ($errors[0] =~ /^:(\d+): parser error : Entity 'nbsp' not defined/) {
+    elsif ($errors[0] =~ /^:(\d+): parser error : Entity '(.*)' not defined/) {
         my $line = $1;
         my $pos = $self->get_pos($errors[2]);
         defined($pos) or Carp::carp("Can't get pos from $error"), return;
