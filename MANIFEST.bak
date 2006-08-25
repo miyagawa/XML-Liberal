@@ -15,6 +15,7 @@ MANIFEST			This list of files
 t/00_compile.t
 t/01_bad.t
 t/02_global.t
+t/03_global_destroy.t
 t/bad/BAD-ampersand.xml
 t/bad/BAD-atttibute.xml
 t/bad/BAD-br.xml

@@ -10,7 +10,6 @@ my $data = "$FindBin::Bin/bad";
 opendir D, $data;
 for my $f (readdir D) {
     next unless $f =~ /\.xml$/;
-    next if $f =~ /chr|lowascii/;
 
     my $parser = XML::LibXML->new;
     eval { $parser->parse_file("$data/$f") };

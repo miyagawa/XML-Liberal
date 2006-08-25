@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Liberal
 
+0.13_01 Fri Aug 25 14:30:11 JST 2006
+        - Added support for utf-8 bytes including control code
+
 0.13  Sun Jul  9 22:03:35 JST 2006
         - Added globally_unoverride method and Destructor object to hold in a lecical scope
 

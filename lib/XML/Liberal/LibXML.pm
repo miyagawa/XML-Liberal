@@ -107,6 +107,35 @@ sub handle_error {
         $remedy->prefix($prefix);
         return $remedy;
     }
+    elsif ($errors[0] =~ /^:(\d+): parser error : internal error/ &&
+           $errors[3] && $errors[3] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
+        my($line) = ($1);
+        return XML::Liberal::Remedy::ControlCode->new;
+    }
+    elsif ($errors[0] =~ /^:(\d+): parser error : internal error/ &&
+           $errors[3] && $errors[3] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
+        my($line) = ($1);
+        return XML::Liberal::Remedy::ControlCode->new;
+    }
+    elsif ($errors[0] =~ /^:(\d+): parser error : Unregistered error message/ &&
+           $errors[3] && $errors[3] =~ /^:(\d+): parser error : internal error/ &&
+           $errors[6] && $errors[6] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
+        my($line) = ($1);
+        return XML::Liberal::Remedy::ControlCode->new;
+    }
+    elsif ($errors[0] =~ /^:(\d+): parser error : CData section not finished/) {
+        my($line) = ($1);
+        return XML::Liberal::Remedy::ControlCode->new;
+    }
+    elsif ($errors[0] =~ /^:(\d+): parser error : xmlParseCharRef: invalid xmlChar value (\d+)/) {
+        my($line, $value) = ($1, $2);
+        return XML::Liberal::Remedy::LowAsciiChars->new;
+    }
+    elsif ($errors[0] =~ /^:(\d+): parser error : Unregistered error message/ &&
+           $errors[3] && $errors[3] =~ /^:(\d+): parser error : Premature end of data in tag char line \d+/) {
+        my($line, $value) = ($1, $2);
+        return XML::Liberal::Remedy::ControlCode->new;
+    }
 
     #warn $_[1];
     return;
