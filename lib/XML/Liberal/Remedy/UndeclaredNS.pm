@@ -41,9 +41,9 @@ sub apply {
     my($xml_ref) = @_;
 
     my $prefix = $self->prefix;
-    my $ns = $namespaces{$prefix} || 'http://example.org/unknown/$self->{prefix}#';
+    my $ns = $namespaces{$prefix} || "http://example.org/unknown/$self->{prefix}#";
 
-    my $match = $$xml_ref =~ s!^(<\?xml .*?\?>\s*<.*?)>!$1 xmlns:$prefix="$ns">!s;
+    my $match = $$xml_ref =~ s!^(<\?xml .*?\?>\s*<.*?)(\s*/?)>!$1 xmlns:$prefix="$ns"$2>!s;
     return 1 if $match;
 
     Carp::carp("Can't find root element");

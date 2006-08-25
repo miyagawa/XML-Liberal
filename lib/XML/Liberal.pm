@@ -1,7 +1,7 @@
 package XML::Liberal;
 
 use strict;
-our $VERSION = '0.13_02';
+our $VERSION = '0.13_03';
 
 use base qw( Class::Accessor );
 use Carp;
@@ -222,6 +222,8 @@ might alter your XML content, especially bytes written in CDATA.
 =head1 AUTHOR
 
 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
+
+=head1 LICENSE
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

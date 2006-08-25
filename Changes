@@ -1,5 +1,10 @@
 Revision history for Perl extension XML::Liberal
 
+0.13_03 Fri Aug 25 15:06:41 JST 2006
+        - Fixed bug that UndeclaredNS doesn't append prefix properly
+        - Added sanitiy tests
+        - Switch to Module::Install and include Test::Base
+
 0.13_02 Fri Aug 25 14:46:43 JST 2006
         - Whoops, fixed hardcoded tagname in LowAsciiChars remedy pattern
 

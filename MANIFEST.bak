@@ -2,9 +2,11 @@ Changes
 lib/XML/Liberal.pm
 lib/XML/Liberal/LibXML.pm
 lib/XML/Liberal/Remedy.pm
+lib/XML/Liberal/Remedy/ControlCode.pm
 lib/XML/Liberal/Remedy/EntityRef.pm
 lib/XML/Liberal/Remedy/HTMLEntity.pm
 lib/XML/Liberal/Remedy/InvalidEncoding.pm
+lib/XML/Liberal/Remedy/LowAsciiChars.pm
 lib/XML/Liberal/Remedy/NotUTF8.pm
 lib/XML/Liberal/Remedy/StandaloneAttribute.pm
 lib/XML/Liberal/Remedy/UndeclaredNS.pm
@@ -51,6 +53,8 @@ t/bad/BAD-chr-5.xml
 t/bad/BAD-chr-6.xml
 t/bad/BAD-chr-7.xml
 t/bad/BAD-chr-8.xml
+t/bad/BAD-control-cdata.xml
+t/bad/BAD-control.xml
 t/bad/BAD-euc.xml
 t/bad/BAD-html.xml
 t/bad/BAD-html2.xml
