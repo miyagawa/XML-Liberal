@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Liberal
 
+0.13_02 Fri Aug 25 14:46:43 JST 2006
+        - Whoops, fixed hardcoded tagname in LowAsciiChars remedy pattern
+
 0.13_01 Fri Aug 25 14:30:11 JST 2006
         - Added support for utf-8 bytes including control code
 

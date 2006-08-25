@@ -132,7 +132,7 @@ sub handle_error {
         return XML::Liberal::Remedy::LowAsciiChars->new;
     }
     elsif ($errors[0] =~ /^:(\d+): parser error : Unregistered error message/ &&
-           $errors[3] && $errors[3] =~ /^:(\d+): parser error : Premature end of data in tag char line \d+/) {
+           $errors[3] && $errors[3] =~ /^:(\d+): parser error : Premature end of data in tag \w+ line \d+/) {
         my($line, $value) = ($1, $2);
         return XML::Liberal::Remedy::ControlCode->new;
     }
