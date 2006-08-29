@@ -139,3 +139,22 @@ __END__
 <?xml version="1.0"?>
 <foo>&#x3042;&#x3044;&#x3046;&#x3048;&#x304A;</foo>
 
+=== Newline
+--- input
+<?xml version="1.0"?>
+<foo>foo
+bar</foo>
+--- expected
+<?xml version="1.0"?>
+<foo>foo
+bar</foo>
+
+=== Newline
+--- ONLY
+--- input
+<?xml version="1.0"?>
+<foo>foo&#x00;&#x0a;bar</foo>
+--- expected
+<?xml version="1.0"?>
+<foo>foo
+bar</foo>

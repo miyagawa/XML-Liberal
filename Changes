@@ -1,5 +1,9 @@
 Revision history for Perl extension XML::Liberal
 
+0.15  Mon Aug 28 18:04:52 JST 2006
+        - Save newline, carrige return and tab in CntrolChars and LowAsciiBytes
+        - Handle &#x00; as well, rather than only 4 digit hex
+
 0.14  Sun Aug 27 15:38:02 JST 2006
         - Fixed bug that UndeclaredNS doesn't append prefix properly
         - Added sanitiy tests
