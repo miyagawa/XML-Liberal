@@ -49,6 +49,12 @@ sub handle_error {
 
     my @errors = split /\n/, $error;
 
+    # strip internal error and unregistered error message
+    while ($errors[0] =~ /^:(\d+): parser error : internal error/ ||
+           $errors[0] =~ /^:(\d+): parser error : Unregistered error message/) {
+        splice(@errors, 0, 3);
+    }
+
     # TODO: this if ... elsif should be pluggable, but depends on drivers
     if ($errors[0] =~ /^:(\d+): parser error : (?:EntityRef: expecting ';'|xmlParseEntityRef: no name)/) {
         my $line = $1;
@@ -107,19 +113,11 @@ sub handle_error {
         $remedy->prefix($prefix);
         return $remedy;
     }
-    elsif ($errors[0] =~ /^:(\d+): parser error : internal error/ &&
-           $errors[3] && $errors[3] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
+    elsif ($errors[0] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
         my($line) = ($1);
         return XML::Liberal::Remedy::ControlCode->new;
     }
-    elsif ($errors[0] =~ /^:(\d+): parser error : internal error/ &&
-           $errors[3] && $errors[3] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
-        my($line) = ($1);
-        return XML::Liberal::Remedy::ControlCode->new;
-    }
-    elsif ($errors[0] =~ /^:(\d+): parser error : Unregistered error message/ &&
-           $errors[3] && $errors[3] =~ /^:(\d+): parser error : internal error/ &&
-           $errors[6] && $errors[6] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
+    elsif ($errors[0] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
         my($line) = ($1);
         return XML::Liberal::Remedy::ControlCode->new;
     }
@@ -127,14 +125,17 @@ sub handle_error {
         my($line) = ($1);
         return XML::Liberal::Remedy::ControlCode->new;
     }
+    elsif ($errors[0] =~ /^:(\d+): parser error : Premature end of data in tag \w+ line \d+/) {
+        my($line, $value) = ($1, $2);
+        return XML::Liberal::Remedy::ControlCode->new;
+    }
+    elsif ($errors[0] =~ /^:(\d+): parser error : PCDATA invalid Char value (\d+)/) {
+        my($line, $value) = ($1, $2);
+        return XML::Liberal::Remedy::ControlCode->new;
+    }
     elsif ($errors[0] =~ /^:(\d+): parser error : xmlParseCharRef: invalid xmlChar value (\d+)/) {
         my($line, $value) = ($1, $2);
         return XML::Liberal::Remedy::LowAsciiChars->new;
-    }
-    elsif ($errors[0] =~ /^:(\d+): parser error : Unregistered error message/ &&
-           $errors[3] && $errors[3] =~ /^:(\d+): parser error : Premature end of data in tag \w+ line \d+/) {
-        my($line, $value) = ($1, $2);
-        return XML::Liberal::Remedy::ControlCode->new;
     }
 
     #warn $_[1];

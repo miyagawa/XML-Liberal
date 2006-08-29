@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Liberal
 
+0.16  Mon Aug 28 20:35:07 JST 2006
+        - Now works with libxml 2.6.26 (Thanks to charsbar)
+
 0.15  Mon Aug 28 18:04:52 JST 2006
         - Save newline, carrige return and tab in CntrolChars and LowAsciiBytes
         - Handle &#x00; as well, rather than only 4 digit hex
