@@ -137,6 +137,10 @@ sub handle_error {
         my($line, $value) = ($1, $2);
         return XML::Liberal::Remedy::LowAsciiChars->new;
     }
+    elsif ($errors[0] =~ /^:(\d+): parser error : XML declaration allowed only at the start of the document/) {
+        my($line) = ($1);
+        return XML::Liberal::Remedy::Declaration->new;
+    }
 
     #warn $_[1];
     return;

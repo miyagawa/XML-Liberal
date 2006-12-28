@@ -1,5 +1,9 @@
 Revision history for Perl extension XML::Liberal
 
+0.17
+        - Added Declaration remedy to handle XML with spaces prior to the XML decl.
+          (Thanks to Satoshi Tanimoto)
+
 0.16  Mon Aug 28 20:35:07 JST 2006
         - Now works with libxml 2.6.26 (Thanks to charsbar)
 

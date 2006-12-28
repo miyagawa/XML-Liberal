@@ -19,6 +19,7 @@ lib/XML/Liberal.pm
 lib/XML/Liberal/LibXML.pm
 lib/XML/Liberal/Remedy.pm
 lib/XML/Liberal/Remedy/ControlCode.pm
+lib/XML/Liberal/Remedy/Declaration.pm
 lib/XML/Liberal/Remedy/EntityRef.pm
 lib/XML/Liberal/Remedy/HTMLEntity.pm
 lib/XML/Liberal/Remedy/InvalidEncoding.pm
@@ -73,6 +74,7 @@ t/bad/BAD-chr-7.xml
 t/bad/BAD-chr-8.xml
 t/bad/BAD-control-cdata.xml
 t/bad/BAD-control.xml
+t/bad/BAD-declaration.xml
 t/bad/BAD-euc.xml
 t/bad/BAD-html.xml
 t/bad/BAD-html2.xml
