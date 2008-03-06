@@ -150,7 +150,6 @@ bar</foo>
 bar</foo>
 
 === Newline
---- ONLY
 --- input
 <?xml version="1.0"?>
 <foo>foo&#x00;&#x0a;bar</foo>
