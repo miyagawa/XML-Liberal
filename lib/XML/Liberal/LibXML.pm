@@ -133,6 +133,10 @@ sub handle_error {
         my($line, $value) = ($1, $2);
         return XML::Liberal::Remedy::ControlCode->new;
     }
+    elsif ($errors[0] =~ /^:(\d+): parser error : Char 0x0 out of allowed range/) {
+        my($line, $value) = ($1, 0);
+        return XML::Liberal::Remedy::ControlCode->new;
+    }
     elsif ($errors[0] =~ /^:(\d+): parser error : xmlParseCharRef: invalid xmlChar value (\d+)/) {
         my($line, $value) = ($1, $2);
         return XML::Liberal::Remedy::LowAsciiChars->new;
