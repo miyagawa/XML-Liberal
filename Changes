@@ -1,5 +1,9 @@
 Revision history for Perl extension XML::Liberal
 
+0.19  Wed May 28 11:48:15 PDT 2008
+        - Updated the diagnostic message for control code characters
+          (Thanks to Brad Choate)
+
 0.18  Thu Mar  6 12:46:51 PST 2008
         - Added a patch to support errors with new libxml
           (Thanks to Keiichiro Nagano)
