@@ -11,7 +11,7 @@ sub apply {
     my $self = shift;
     my($xml_ref) = @_;
 
-    my $encoding = ( $$xml_ref =~ /<\?xml version="1\.0" encoding="(.*?)"/ )[0];
+    my $encoding = ( $$xml_ref =~ /^<\?xml\s+version\s*=\s*["']1\.[01]["']\s+encoding\s*=\s*["']([^"']+)/ )[0];
     unless ($encoding) {
         my @suspects = @{ $self->guess_encodings || [ qw(euc-jp shift_jis utf-8) ] };
         my $enc = guess_encoding($$xml_ref, @suspects);
@@ -20,7 +20,7 @@ sub apply {
 
     if ($encoding) {
         Encode::from_to($$xml_ref, $encoding, "UTF-8");
-        $$xml_ref =~ s/<\?xml version="1\.0" encoding=".*?"/<?xml version="1.0" encoding="utf-8"/;
+        $$xml_ref =~ s/^(<\?xml\s*version\s*=\s*["']1\.[01]["']\s+encoding\s*=\s*["'])[^"']+/$1utf-8/;
         return 1;
     }
 

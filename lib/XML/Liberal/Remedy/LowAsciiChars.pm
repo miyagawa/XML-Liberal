@@ -6,7 +6,7 @@ use base qw( XML::Liberal::Remedy );
 sub apply {
     my $self = shift;
     my($xml_ref) = @_;
-    my $match = $$xml_ref =~ s{(&#(?:(\d+)|x([0-9a-f]{2,4}));)}{
+    my $match = $$xml_ref =~ s{(&#(?:(\d+)|x([0-9A-Fa-f]{2,4}));)}{
         ($2 && is_low_ascii($2)) || ($3 && is_low_ascii(hex($3)))
             ? '' : $1;
     }eg;
