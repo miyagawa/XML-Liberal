@@ -145,6 +145,10 @@ sub handle_error {
         my($line) = ($1);
         return XML::Liberal::Remedy::Declaration->new;
     }
+    elsif ($errors[0] =~ /Content error in the external subset/) {
+        my($line) = $1;
+        return XML::Liberal::Remedy::DeprecatedDTD->new;
+    }
 
     #warn $_[1];
     return;
