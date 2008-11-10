@@ -1,7 +1,7 @@
 package XML::Liberal;
 
 use strict;
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 
 use base qw( Class::Accessor );
 use Carp;
