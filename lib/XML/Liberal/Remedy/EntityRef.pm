@@ -6,7 +6,7 @@ use base qw( XML::Liberal::Remedy );
 sub apply {
     my $self = shift;
     my($xml_ref) = @_;
-    my $match = $$xml_ref =~ s/&(?!\w+;|#x[a-fA-F0-9]+;)/&amp;/g;
+    my $match = $$xml_ref =~ s/&(?!\w+;|#(?:x[a-fA-F0-9]+|\d+);)/&amp;/g;
     return 1 if $match;
 
     # there's no &bar in this XML document ...?

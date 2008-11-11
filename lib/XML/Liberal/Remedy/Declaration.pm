@@ -7,11 +7,11 @@ sub apply {
     my $self = shift;
     my($xml_ref) = @_;
 
-    if ($$xml_ref =~ s/^\s+//) {
+    if ($$xml_ref =~ s/^\s+(?=<)//) { # s/^[^<]+//
         return 1;
     }
 
-    Carp::carp("Can't find spaces at the start of the document.");
+    Carp::carp("Can't find white spaces at the start of the document.");
     return;
 }
 

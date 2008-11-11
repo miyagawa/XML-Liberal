@@ -6,11 +6,16 @@ use base qw( XML::Liberal::Remedy );
 sub apply {
     my $self = shift;
     my($xml_ref) = @_;
-    my $match = $$xml_ref =~ s{<(?:area|base(?:font)?|[bh]r|col|frame|img|input|isindex|link|meta(?#|param))(?:\s[^>]*)?(?<!/)(?=>)}
-                              {$& /}g;
+    my $match = $$xml_ref =~ s{
+        <(area | base (?:font)? | [bh]r | col | frame | img | input | isindex |
+          link | meta | param)
+         (?: \s[^>]*)?
+         (?<! /) (?= > (?! \s*</\1\s*>))
+    }
+    {$& /}gx;
     return 1 if $match;
 
-    Carp::carp("Can't find empty <area>, <base>, <basefont>, <br>, <hr>, <col>, <frame>, <img>, <input>, <isindex>, <link> nor <meta> tags: line $self->{line} pos $self->{pos}: $self->{error}");
+    Carp::carp("Can't find XHTML empty-element tags: line $self->{line} pos $self->{pos}: $self->{error}");
     return;
 }
 
