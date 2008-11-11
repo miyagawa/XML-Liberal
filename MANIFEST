@@ -41,7 +41,6 @@ t/03_global_destroy.t
 t/04_sanity.t
 t/bad/BAD-ampersand.xml
 t/bad/BAD-atttibute.xml
-t/bad/BAD-br.xml
 t/bad/BAD-charset.xml
 t/bad/BAD-chr-0.xml
 t/bad/BAD-chr-1.xml
@@ -86,3 +85,4 @@ t/bad/BAD-undeclared-ns-element.xml
 t/bad/BAD-undeclared-ns.xml
 t/bad/BAD-unquoted-nbsp.xml
 t/bad/BAD-unquoted.xml
+t/bad/BAD-xhtml-empty-element-tag.xml
