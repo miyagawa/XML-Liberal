@@ -76,7 +76,6 @@ t/bad/BAD-chr-8.xml
 t/bad/BAD-control-cdata.xml
 t/bad/BAD-control.xml
 t/bad/BAD-declaration.xml
-t/bad/BAD-DTD-1.xml
 t/bad/BAD-euc.xml
 t/bad/BAD-html.xml
 t/bad/BAD-html2.xml
@@ -86,3 +85,4 @@ t/bad/BAD-undeclared-ns.xml
 t/bad/BAD-unquoted-nbsp.xml
 t/bad/BAD-unquoted.xml
 t/bad/BAD-xhtml-empty-element-tag.xml
+t/bad/MAYBE-BAD-DTD-1.xml

@@ -1,5 +1,10 @@
 Revision history for Perl extension XML::Liberal
 
+0.21  Tue Mar 17 11:14:46 PDT 2009
+        - Now it works with libxml 2.7.* or over if you use XML::LibXML 1.69_02 or over
+          (Thanks to mala)
+        - Fixed ControlCode handling for non-UTF8 feeds (Thanks to mala)
+
 0.20  Sun Nov  9 22:42:31 PST 2008
         - Added DeprecatedDTD to fix RSS 0.9[01] feed pointing to netscape DTD
           (Thanks to mala)
