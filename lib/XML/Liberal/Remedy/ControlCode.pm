@@ -9,10 +9,10 @@ sub apply {
     my $self = shift;
     my($xml_ref) = @_;
 
-    my $string = decode_utf8($$xml_ref);
+    my $string = $$xml_ref;
     my $match  = $string =~ s/[\x00-\x08\x0b-\x0c\x0e-\x1f\x7f]+//g;
     if ($match) {
-        $$xml_ref = encode_utf8($string);
+        $$xml_ref = $string;
         return 1;
     }
 
