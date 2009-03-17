@@ -150,7 +150,7 @@ sub handle_error {
         my($line) = ($1);
         return XML::Liberal::Remedy::Declaration->new;
     }
-    elsif ($errors[0] =~ /^:(\d+): parser error : Content error in the external subset/) {
+    elsif ($errors[0] =~ /:(\d+): parser error : Content error in the external subset/) {
         my($line) = ($1);
         return XML::Liberal::Remedy::DeprecatedDTD->new;
     }
