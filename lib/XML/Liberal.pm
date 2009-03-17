@@ -1,6 +1,7 @@
 package XML::Liberal;
 
 use strict;
+use 5.008_001;
 our $VERSION = '0.20';
 
 use base qw( Class::Accessor );
