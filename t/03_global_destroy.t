@@ -24,6 +24,7 @@ for my $f (readdir D) {
 
     my $parser = XML::LibXML->new;
     my $doc = eval { $parser->parse_file("$data/$f") };
+    next if ($f =~/^MAYBE/ && !$@);
     ok $@, $@;
 }
 

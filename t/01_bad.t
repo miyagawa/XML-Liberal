@@ -13,6 +13,7 @@ for my $f (readdir D) {
 
     my $parser = XML::LibXML->new;
     eval { $parser->parse_file("$data/$f") };
+    next if ($f =~/^MAYBE/ && !$@);
     ok $@, $@;
 
     open my $fh, "$data/$f" or die $!;

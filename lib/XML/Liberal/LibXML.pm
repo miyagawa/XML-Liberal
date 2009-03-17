@@ -47,6 +47,15 @@ sub handle_error {
     my $self = shift;
     my($error) = @_;
 
+    # for XML::LibXML > 1.69
+    if (ref $error eq 'XML::LibXML::Error') {
+        while($error->_prev) {
+            last if ($error->message =~/Unregistered error message/);
+            last if ($error->message =~/internal error/);
+            $error = $error->_prev
+        }
+        $error = $error->as_string;
+    }
     my @errors = split /\n/, $error;
 
     # strip internal error and unregistered error message
@@ -76,7 +85,7 @@ sub handle_error {
         $remedy->guess_encodings($self->guess_encodings);
         return $remedy;
     }
-    elsif ($errors[0] =~ /^input conversion failed due to input error/) {
+    elsif ($errors[0] =~ /^( error : )?input conversion failed due to input error/) {
         my $remedy = XML::Liberal::Remedy::InvalidEncoding->new($self, 0, undef, $error);
         $remedy->guess_encodings($self->guess_encodings);
         return $remedy;
@@ -112,10 +121,6 @@ sub handle_error {
         my $remedy = XML::Liberal::Remedy::UndeclaredNS->new($self, $line, $pos, $error);
         $remedy->prefix($prefix);
         return $remedy;
-    }
-    elsif ($errors[0] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
-        my($line) = ($1);
-        return XML::Liberal::Remedy::ControlCode->new;
     }
     elsif ($errors[0] =~ /^:(\d+): parser error : Extra content at the end of the document/m) {
         my($line) = ($1);
