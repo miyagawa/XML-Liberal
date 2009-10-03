@@ -7,6 +7,7 @@ inc/Module/Install/Fetch.pm
 inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
+inc/Module/Install/Repository.pm
 inc/Module/Install/TestBase.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
@@ -76,7 +77,6 @@ t/bad/BAD-chr-8.xml
 t/bad/BAD-control-cdata.xml
 t/bad/BAD-control.xml
 t/bad/BAD-declaration.xml
-t/bad/BAD-euc.xml
 t/bad/BAD-html.xml
 t/bad/BAD-html2.xml
 t/bad/BAD-lowascii.xml
@@ -86,3 +86,4 @@ t/bad/BAD-unquoted-nbsp.xml
 t/bad/BAD-unquoted.xml
 t/bad/BAD-xhtml-empty-element-tag.xml
 t/bad/MAYBE-BAD-DTD-1.xml
+t/bad/MAYBE-BAD-euc.xml

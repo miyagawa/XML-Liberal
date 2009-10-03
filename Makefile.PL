@@ -2,6 +2,7 @@ use inc::Module::Install;
 
 name('XML-Liberal');
 all_from('lib/XML/Liberal.pm');
+auto_set_repository;
 
 requires('XML::LibXML', '1.69_02');
 requires('HTML::Entities::Numbered', 0.04);

@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Liberal
 
+0.22  Sat Oct  3 04:38:52 PDT 2009
+        - BAD-euc.xml doesn't fail with recent libxml2 apparently(?)
+
 0.21  Tue Mar 17 11:14:46 PDT 2009
         - Now it works with libxml 2.7.* or over if you use XML::LibXML 1.69_02 or over
           (Thanks to mala)
