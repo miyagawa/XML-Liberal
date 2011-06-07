@@ -5,7 +5,7 @@ all_from('lib/XML/Liberal.pm');
 auto_set_repository;
 
 requires('XML::LibXML', '1.69_02');
-requires('HTML::Entities::Numbered', 0.04);
+requires('HTML::Entities');
 requires('Module::Pluggable::Fast', 0.16);
 requires('Class::Accessor');
 
