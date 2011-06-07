@@ -2,6 +2,13 @@ package XML::Liberal::Remedy::DeprecatedDTD;
 use strict;
 use base qw( XML::Liberal::Remedy );
 
+sub handles_error {
+    my $class = shift;
+    my($error, $error1, $error2) = @_;
+
+    return $error =~ /:\d+: parser error : Content error in the external subset/;
+}
+
 sub apply {
     my $self = shift;
     my($xml_ref) = @_;

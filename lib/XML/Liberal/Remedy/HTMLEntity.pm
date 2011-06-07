@@ -9,6 +9,14 @@ my %DECODE = map {
     $name => sprintf '&#x%x;', ord $HTML::Entities::entity2char{$_}
 } keys %HTML::Entities::entity2char;
 
+sub new {
+    my $class = shift;
+    my($driver, $error, $error1, $error2) = @_;
+
+    return if $error !~ /^:\d+: parser error : Entity '.*' not defined/;
+    return $class->new_with_location(@_);
+}
+
 # optimized to fix all errors in one apply() call
 sub apply {
     my $self = shift;

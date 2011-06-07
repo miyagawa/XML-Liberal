@@ -30,6 +30,17 @@ our %namespaces = (
     itunes  => "http://www.itunes.com/dtds/podcast-1.0.dtd",
 );
 
+sub new {
+    my $class = shift;
+    my ($driver, $error, $error1, $error2) = @_;
+
+    my ($prefix) = $error =~ /^:\d+: namespace error : Namespace prefix (\S+)(?: for \S+)? on \S+ is not defined/
+        or return;
+    my $self = $class->new_with_location(@_) or return;
+    $self->prefix($prefix);
+    return $self;
+}
+
 sub prefix {
     my $self = shift;
     $self->{prefix} = shift if @_;

@@ -6,6 +6,17 @@ use List::Util qw( min );
 
 __PACKAGE__->mk_accessors(qw( attribute ));
 
+sub new {
+    my $class = shift;
+    my ($driver, $error, $error1, $error2) = @_;
+
+    my ($attr) = $error =~ /^:\d+: parser error : Specification mandate value for attribute (\w+)/
+        or return;
+    my $self = $class->new_with_location(@_) or return;
+    $self->attribute($attr);
+    return $self;
+}
+
 sub apply {
     my $self = shift;
     my($xml_ref) = @_;

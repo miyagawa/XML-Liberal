@@ -2,6 +2,15 @@ package XML::Liberal::Remedy::EntityRef;
 use strict;
 use base qw( XML::Liberal::Remedy );
 
+sub new {
+    my $class = shift;
+    my($driver, $error, $error1, $error2) = @_;
+
+    return if $error !~
+        /^:\d+: parser error : (?:EntityRef: expecting ';'|xmlParseEntityRef: no name)/;
+    return $class->new_with_location(@_);
+}
+
 # optimized to fix all errors in one apply() call
 sub apply {
     my $self = shift;

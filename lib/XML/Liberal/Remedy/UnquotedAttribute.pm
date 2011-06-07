@@ -4,6 +4,14 @@ use base qw( XML::Liberal::Remedy );
 
 use List::Util qw( min );
 
+sub new {
+    my $class = shift;
+    my($driver, $error, $error1, $error2) = @_;
+
+    return if $error !~ /^:\d+: parser error : AttValue: \" or \' expected/;
+    return $class->new_with_location(@_);
+}
+
 sub apply {
     my $self = shift;
     my($xml_ref) = @_;

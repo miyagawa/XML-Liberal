@@ -2,6 +2,13 @@ package XML::Liberal::Remedy::LowAsciiChars;
 use strict;
 use base qw( XML::Liberal::Remedy );
 
+sub handles_error {
+    my $class = shift;
+    my($error, $error1, $error2) = @_;
+
+    return $error =~ /^:\d+: parser error : xmlParseCharRef: invalid xmlChar value \d+/;
+}
+
 # optimized to fix all errors in one apply() call
 sub apply {
     my $self = shift;

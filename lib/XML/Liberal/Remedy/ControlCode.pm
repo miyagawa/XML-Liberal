@@ -4,6 +4,24 @@ use base qw( XML::Liberal::Remedy );
 
 use Encode;
 
+my $ERROR_RX = do {
+    my $pat = join '|', (
+        'Extra content at the end of the document',
+        'CData section not finished',
+        'Premature end of data in tag \w+ line \d+',
+        'PCDATA invalid Char value \d+',
+        'Char 0x[0-9A-F]+ out of allowed range',
+    );
+    qr/^:\d+: parser error : (?:$pat)/;
+};
+
+sub handles_error {
+    my $class = shift;
+    my($error, $error1, $error2) = @_;
+
+    return $error =~ $ERROR_RX;
+}
+
 # optimized to fix all errors in one apply() call
 sub apply {
     my $self = shift;

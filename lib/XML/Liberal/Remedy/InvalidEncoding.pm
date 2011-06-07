@@ -7,6 +7,18 @@ use Encode::Guess;
 
 __PACKAGE__->mk_accessors(qw( guess_encodings ));
 
+sub new {
+    my $class = shift;
+    my ($driver, $error, $error1, $error2) = @_;
+
+    return if $error !~ /^(?:(?:i18n |encoding )?error : )?input conversion failed due to input error/;
+    my $self = bless { driver => $driver, error  => $error,
+                       error1 => $error1, error2 => $error2,
+                       line   => 0,       pos    => undef }, $class;
+    $self->guess_encodings($driver->guess_encodings);
+    return $self;
+}
+
 sub apply {
     my $self = shift;
     my($xml_ref) = @_;
