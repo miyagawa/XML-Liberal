@@ -5,6 +5,9 @@ use FindBin;
 use XML::LibXML;
 use XML::Liberal;
 
+binmode Test::More->builder->$_, ':utf8'
+    for qw( output failure_output todo_output );
+
 my $data = "$FindBin::Bin/bad";
 
 opendir D, $data;
