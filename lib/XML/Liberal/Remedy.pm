@@ -2,6 +2,8 @@ package XML::Liberal::Remedy;
 use strict;
 use base qw( Class::Accessor );
 
+__PACKAGE__->mk_ro_accessors(qw( driver error error1 error2 line pos ));
+
 sub new {
     my $class = shift;
     my($driver, $error, $error1, $error2) = @_;
