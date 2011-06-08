@@ -47,6 +47,7 @@ t/bad/BAD-charset.xml
 t/bad/BAD-chr-0.xml
 t/bad/BAD-chr-1.xml
 t/bad/BAD-chr-11.xml
+t/bad/BAD-chr-11-ref-hex.xml
 t/bad/BAD-chr-12.xml
 t/bad/BAD-chr-14.xml
 t/bad/BAD-chr-15.xml
