@@ -29,6 +29,7 @@ lib/XML/Liberal/Remedy/InvalidEncoding.pm
 lib/XML/Liberal/Remedy/LowAsciiChars.pm
 lib/XML/Liberal/Remedy/NotUTF8.pm
 lib/XML/Liberal/Remedy/StandaloneAttribute.pm
+lib/XML/Liberal/Remedy/UnclosedHTML.pm
 lib/XML/Liberal/Remedy/UndeclaredNS.pm
 lib/XML/Liberal/Remedy/UnquotedAttribute.pm
 lib/XML/Liberal/Remedy/XHTMLEmptyTag.pm
@@ -81,6 +82,7 @@ t/bad/BAD-html.xml
 t/bad/BAD-html2.xml
 t/bad/BAD-html3.xml
 t/bad/BAD-lowascii.xml
+t/bad/BAD-unclosed.xml
 t/bad/BAD-undeclared-ns-element.xml
 t/bad/BAD-undeclared-ns.xml
 t/bad/BAD-unquoted-nbsp.xml
