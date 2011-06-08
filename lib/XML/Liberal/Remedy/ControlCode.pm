@@ -6,9 +6,7 @@ use Encode;
 
 my $ERROR_RX = do {
     my $pat = join '|', (
-        'Extra content at the end of the document',
         'CData section not finished',
-        'Premature end of data in tag \w+ line \d+',
         'PCDATA invalid Char value \d+',
         'Char 0x[0-9A-F]+ out of allowed range',
     );
