@@ -88,5 +88,6 @@ t/bad/BAD-undeclared-ns.xml
 t/bad/BAD-unquoted-nbsp.xml
 t/bad/BAD-unquoted.xml
 t/bad/BAD-xhtml-empty-element-tag.xml
+t/bad/BAD-xhtml-empty-element-tag2.xml
 t/bad/MAYBE-BAD-DTD-1.xml
 t/bad/MAYBE-BAD-euc.xml

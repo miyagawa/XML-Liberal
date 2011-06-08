@@ -2,12 +2,23 @@ package XML::Liberal::Remedy::XHTMLEmptyTag;
 use strict;
 use base qw( XML::Liberal::Remedy );
 
+use HTML::Tagset ();
+
+my @ELEMENTS = sort keys %HTML::Tagset::emptyElement;
+my $ERROR_RX = do {
+    my $pat = join '|', @ELEMENTS;
+    qr/^:\d+: parser error : Opening and ending tag mismatch: (?i:$pat)/;
+};
+my $TAG_RX = do {
+    my $pat = join '|', @ELEMENTS;
+    qr{(<((?i:$pat)) (?: \s[^>]*)? ) (?<! /) (?= > (?! \s*</\2\s*>))}x;
+};
+
 sub new {
     my $class = shift;
     my($driver, $error, $error1, $error2) = @_;
 
-    return if $error !~
-        /^:\d+: parser error : Opening and ending tag mismatch: (?:br|hr|img)/;
+    return if $error !~ $ERROR_RX;
     return $class->new_with_location(@_);
 }
 
@@ -15,14 +26,7 @@ sub new {
 sub apply {
     my $self = shift;
     my($xml_ref) = @_;
-    my $match = $$xml_ref =~ s{
-        (<(area | base (?:font)? | [bh]r | col | frame | img | input | isindex |
-           link | meta | param)
-         (?: \s[^>]*)?)
-         (?<! /) (?= > (?! \s*</\2\s*>))
-    }
-    {$1 /}gx;
-    return 1 if $match;
+    return 1 if $$xml_ref =~ s{$TAG_RX}{$1 /}g;
 
     Carp::carp("Can't find XHTML empty-element tags: line $self->{line} pos $self->{pos}: $self->{error}");
     return;
