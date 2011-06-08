@@ -21,14 +21,7 @@ sub apply {
     my $self = shift;
     my($xml_ref) = @_;
 
-    my $line = $self->{line} - 1;
-    my $index = 0;
-    while ($line) {
-        $index = index($$xml_ref, "\n", $index + 1);
-        $line--;
-    }
-
-    $index += $self->{pos} + 1;
+    my $index = $self->error_location($xml_ref);
 
     # <hr noshade />
     #             ^
