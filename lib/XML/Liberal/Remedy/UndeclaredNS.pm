@@ -52,6 +52,14 @@ sub apply {
     my($xml_ref) = @_;
 
     my $prefix = $self->prefix;
+
+    # If $prefix happens to have the internal SvUTF8 flag, and $$xml_ref
+    # doesn't, but $$xml_ref looks like the bytes of a UTF-8 representation,
+    # then the substitution below will effectively toggle the SvUTF8 flag on
+    # $$xml_ref, at least in some versions of Perl.  So ensure the prefix
+    # has SvUTF8 only if that's needed to represent it.
+    utf8::downgrade($prefix, 1);
+
     my $ns = $namespaces{$prefix} || "http://example.org/unknown/$self->{prefix}#";
 
     my $match = $$xml_ref =~ s{^(<\?xml\s[^>]*?\?>\s*(?:<[!?][^>]+>\s*)*<[^\s/>]+)}
