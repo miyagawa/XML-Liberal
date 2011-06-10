@@ -2,8 +2,6 @@ package XML::Liberal::Remedy::ControlCode;
 use strict;
 use base qw( XML::Liberal::Remedy );
 
-use Encode;
-
 my $ERROR_RX = do {
     my $pat = join '|', (
         'CData section not finished',
