@@ -2,6 +2,8 @@ package XML::Liberal::Remedy::UndeclaredNS;
 use strict;
 use base qw( XML::Liberal::Remedy );
 
+__PACKAGE__->mk_accessors(qw( prefix ));
+
 our %namespaces = (
     rdf     => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     dc      => "http://purl.org/dc/elements/1.1/",
@@ -39,12 +41,6 @@ sub new {
     my $self = $class->new_with_location(@_) or return;
     $self->prefix($prefix);
     return $self;
-}
-
-sub prefix {
-    my $self = shift;
-    $self->{prefix} = shift if @_;
-    $self->{prefix};
 }
 
 sub apply {
