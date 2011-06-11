@@ -27,6 +27,7 @@ lib/XML/Liberal/Remedy/EntityRef.pm
 lib/XML/Liberal/Remedy/HTMLEntity.pm
 lib/XML/Liberal/Remedy/InvalidEncoding.pm
 lib/XML/Liberal/Remedy/LowAsciiChars.pm
+lib/XML/Liberal/Remedy/NestedCDATA.pm
 lib/XML/Liberal/Remedy/NotUTF8.pm
 lib/XML/Liberal/Remedy/StandaloneAttribute.pm
 lib/XML/Liberal/Remedy/TrailingDoctype.pm
@@ -85,6 +86,7 @@ t/bad/BAD-html.xml
 t/bad/BAD-html2.xml
 t/bad/BAD-html3.xml
 t/bad/BAD-lowascii.xml
+t/bad/BAD-nested-cdata.xml
 t/bad/BAD-trailing-both.xml
 t/bad/BAD-trailing-doctype.xml
 t/bad/BAD-trailing-elements.xml
@@ -139,6 +141,7 @@ t/good/GOOD-html.xml
 t/good/GOOD-html2.xml
 t/good/GOOD-html3.xml
 t/good/GOOD-lowascii.xml
+t/good/GOOD-nested-cdata.xml
 t/good/GOOD-trailing-both.xml
 t/good/GOOD-trailing-doctype.xml
 t/good/GOOD-trailing-elements.xml
