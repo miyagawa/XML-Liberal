@@ -45,6 +45,7 @@ t/02_global.t
 t/03_global_destroy.t
 t/04_sanity.t
 t/bad/BAD-ampersand.xml
+t/bad/BAD-ampersand2.xml
 t/bad/BAD-atttibute.xml
 t/bad/BAD-charset.xml
 t/bad/BAD-chr-0.xml
@@ -100,6 +101,7 @@ t/bad/BAD-xhtml-empty-element-tag2.xml
 t/bad/MAYBE-BAD-DTD-1.xml
 t/bad/MAYBE-BAD-euc.xml
 t/good/GOOD-ampersand.xml
+t/good/GOOD-ampersand2.xml
 t/good/GOOD-atttibute.xml
 t/good/GOOD-charset.xml
 t/good/GOOD-chr-0.xml
