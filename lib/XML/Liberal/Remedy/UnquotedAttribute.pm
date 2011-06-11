@@ -9,11 +9,8 @@ sub apply {
 
     return 0 if $error->message !~ /^parser error : AttValue: \" or \' expected/;
 
-    my $index = $error->location($xml_ref);
-    my $buffer = substr($$xml_ref, $index, min(64, length($$xml_ref) - 1));
-       $buffer =~ s/^([^\s>]+)/"$1"/;
-    substr($$xml_ref, $index, length($buffer), $buffer);
-    return 1; # xxx
+    pos($$xml_ref) = $error->location($xml_ref);
+    return 1 if $$xml_ref =~ s/\G([^\s>"]*)/"$1"/;
 
     Carp::carp("Can't find unquoted attribute in line, error was: ",
                $error->summary);
