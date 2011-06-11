@@ -1,8 +1,5 @@
 package XML::Liberal::Remedy::UndeclaredNS;
 use strict;
-use base qw( XML::Liberal::Remedy );
-
-__PACKAGE__->mk_accessors(qw( prefix ));
 
 our %namespaces = (
     rdf     => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -32,22 +29,13 @@ our %namespaces = (
     itunes  => "http://www.itunes.com/dtds/podcast-1.0.dtd",
 );
 
-sub new {
-    my $class = shift;
-    my ($driver, $error, $error1, $error2) = @_;
-
-    my ($prefix) = $error =~ /^:\d+: namespace error : Namespace prefix (\S+)(?: for \S+)? on \S+ is not defined/
-        or return;
-    my $self = $class->new_with_location(@_) or return;
-    $self->prefix($prefix);
-    return $self;
-}
-
 sub apply {
-    my $self = shift;
-    my($xml_ref) = @_;
+    my $class = shift;
+    my($driver, $error, $xml_ref) = @_;
 
-    my $prefix = $self->prefix;
+    my ($prefix) = $error->message =~
+        /^namespace error : Namespace prefix (\S+)(?: for \S+)? on \S+ is not defined/
+            or return 0;
 
     # If $prefix happens to have the internal SvUTF8 flag, and $$xml_ref
     # doesn't, but $$xml_ref looks like the bytes of a UTF-8 representation,
@@ -56,14 +44,13 @@ sub apply {
     # has SvUTF8 only if that's needed to represent it.
     utf8::downgrade($prefix, 1);
 
-    my $ns = $namespaces{$prefix} || "http://example.org/unknown/$self->{prefix}#";
+    my $ns = $namespaces{$prefix} || "http://example.org/unknown/$prefix#";
 
-    my $match = $$xml_ref =~ s{^(<\?xml\s[^>]*?\?>\s*(?:<[!?][^>]+>\s*)*<[^\s/>]+)}
+    return 1 if $$xml_ref =~ s{^(<\?xml\s[^>]*?\?>\s*(?:<[!?][^>]+>\s*)*<[^\s/>]+)}
                               {$1 xmlns:$prefix="$ns"};
-    return 1 if $match;
 
-    Carp::carp("Can't find root element");
-    return;
+    Carp::carp("Can't find root element, error was: ", $error->summary);
+    return 0;
 }
 
 1;

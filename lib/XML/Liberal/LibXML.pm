@@ -3,6 +3,7 @@ use strict;
 
 use Carp;
 use XML::LibXML;
+use XML::Liberal::Error;
 
 use base qw( XML::Liberal );
 
@@ -43,35 +44,35 @@ sub new {
     $self;
 }
 
-sub handle_error {
+sub extract_error {
     my $self = shift;
-    my($error) = @_;
+    my($exn) = @_;
 
     # for XML::LibXML > 1.69
-    if (ref $error eq 'XML::LibXML::Error') {
-        while($error->_prev) {
-            last if ($error->message =~/Unregistered error message/);
-            last if ($error->message =~/internal error/);
-            $error = $error->_prev
+    if (ref $exn eq 'XML::LibXML::Error') {
+        while($exn->_prev) {
+            last if $exn->message =~/Unregistered error message/;
+            last if $exn->message =~/internal error/;
+            $exn =  $exn->_prev
         }
-        $error = $error->as_string;
+        $exn = $exn->as_string;
     }
-    my @errors = split /\n/, $error;
+    my @errors = split /\n/, $exn;
 
     # strip internal error and unregistered error message
-    while ($errors[0] =~ /^:(\d+): parser error : internal error/ ||
-           $errors[0] =~ /^:(\d+): parser error : Unregistered error message/) {
-        splice(@errors, 0, 3);
+    while ($errors[0] =~ /^:\d+: parser error : internal error/ ||
+           $errors[0] =~ /^:\d+: parser error : Unregistered error message/) {
+        splice @errors, 0, 3;
     }
 
-    for my $remedy_class (sort XML::Liberal->remedies) {
-        next unless $remedy_class->handles_driver($self, @errors[0 .. 2]);
-        my $remedy = $remedy_class->new($self, @errors[0 .. 2])
-            or next;
-        return $remedy;
-    }
+    my $line   =  $errors[0]        =~ s/^:(\d+):\s*// ?        $1  : undef;
+    my $column = ($errors[2] || '') =~  /^(\s*)\^/     ? length($1) : undef;
 
-    return;
+    return XML::Liberal::Error->new({
+        message => $errors[0],
+        line    => $line,
+        column  => $column,
+    });
 }
 
 # recover() is not useful for Liberal parser ... IMHO
