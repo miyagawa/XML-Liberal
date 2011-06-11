@@ -4,6 +4,8 @@ use strict;
 use Encode;
 use Encode::Guess;
 
+my $RX = qr/^(<\?xml\s+version\s*=\s*["']1\.[01]["']\s+encoding\s*=\s*["'])([^"']+)/;
+
 sub apply {
     my $class = shift;
     my($driver, $error, $xml_ref) = @_;
@@ -11,8 +13,7 @@ sub apply {
     return 0 if $error->message !~
         /^(?:(?:i18n |encoding )?error : )?input conversion failed due to input error/;
 
-    my ($encoding) = $$xml_ref =~
-        /^<\?xml\s+version\s*=\s*["']1\.[01]["']\s+encoding\s*=\s*["']([^"']+)/;
+    my (undef, $encoding) = $$xml_ref =~ $RX;
     unless ($encoding) {
         my @suspects = @{ $driver->guess_encodings || [ qw(euc-jp shift_jis utf-8) ] };
         my $enc = guess_encoding($$xml_ref, @suspects);
@@ -20,9 +21,8 @@ sub apply {
     }
 
     if ($encoding) {
-        Encode::from_to($$xml_ref, $encoding, "UTF-8");
-        return 1 if $$xml_ref =~
-            s/^(<\?xml\s*version\s*=\s*["']1\.[01]["']\s+encoding\s*=\s*["'])[^"']+/$1utf-8/;
+        Encode::from_to($$xml_ref, $encoding, "UTF-8"), return 1
+            if $$xml_ref =~ s/$RX/$1utf-8/;
     }
 
     Carp::carp("Can't find encoding from XML declaration: ", substr($$xml_ref, 0, 128));
