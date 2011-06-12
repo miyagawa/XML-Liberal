@@ -8,7 +8,7 @@ sub apply {
     return 0 if $error->message !~
         /^parser error : Extra content at the end of the document/;
 
-    pos($$xml_ref) = $error->location($xml_ref);
+    pos($$xml_ref) = $error->location;
     return $$xml_ref =~ s{\G <!doctype .*?> }{}xmsi;
 }
 

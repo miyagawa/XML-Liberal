@@ -23,7 +23,7 @@ sub apply {
             s/&(?!\w+;|#(?:x[a-fA-F0-9]+|\d+);)/&amp;/g;
     }
     else {
-        my $pos = $error->location($xml_ref);
+        my $pos = $error->location;
         while ($pos > 0) {
             pos($$xml_ref) = $pos--;
             return 1 if $$xml_ref =~ s/\G&/&amp;/

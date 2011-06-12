@@ -46,7 +46,7 @@ sub new {
 
 sub extract_error {
     my $self = shift;
-    my($exn) = @_;
+    my($exn, $xml_ref) = @_;
 
     # for XML::LibXML > 1.69
     if (ref $exn eq 'XML::LibXML::Error') {
@@ -65,13 +65,30 @@ sub extract_error {
         splice @errors, 0, 3;
     }
 
-    my $line   =  $errors[0]        =~ s/^:(\d+):\s*// ?        $1  : undef;
-    my $column = ($errors[2] || '') =~  /^(\s*)\^/     ? length($1) : undef;
+    my $line = $errors[0] =~ s/^:(\d+):\s*// ? $1  : undef;
+
+    my ($column, $location);
+    if (defined $line && defined $errors[1] && defined $errors[2]) {
+        my $line_start = 0;
+        $line_start = 1 + index $$xml_ref, "\n", $line_start
+            for 2 .. $line;
+        no warnings 'utf8'; # if fixing bad UTF-8, such warnings are confusing
+        if (my ($spaces) = $errors[2] =~ /^(\s*)\^/) {
+            my $context = substr $errors[1], 0, length $spaces;
+            pos($$xml_ref) = $line_start;
+            if ($$xml_ref =~ /\G.*?\Q$context\E /x) {
+                $location = $+[0];
+                $column = $location - $line_start + 1;
+            }
+            pos($$xml_ref) = undef; # so future matches work as expected
+        }
+    }
 
     return XML::Liberal::Error->new({
-        message => $errors[0],
-        line    => $line,
-        column  => $column,
+        message  => $errors[0],
+        line     => $line,
+        column   => $column,
+        location => $location,
     });
 }
 

@@ -15,7 +15,7 @@ sub apply {
     # -- the first non-whitespace character after the attribute name.  We
     # can just insert an attribute value at that point; no need to look
     # backwards for where the attribute name starts or ends.
-    substr $$xml_ref, $error->location($xml_ref), 0, qq[="$attr" ];
+    substr $$xml_ref, $error->location, 0, qq[="$attr" ];
     return 1;
 }
 

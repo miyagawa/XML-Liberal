@@ -16,7 +16,7 @@ sub apply {
 
     my ($unclosed, $detected) = $error->message =~ $ERROR_RX or return 0;
 
-    my $index = $error->location($xml_ref);
+    my $index = $error->location;
     my $tail = substr $$xml_ref, $index, length($$xml_ref) - $index, '';
 
     return 1 if $$xml_ref =~ s{( </ \Q$detected\E \s* > \z )}{</$unclosed>$1$tail}xms;

@@ -63,7 +63,7 @@ sub parse_string {
         my $doc = eval { $self->{parser}->parse_string($xml) };
         return $doc if $doc;
 
-        my $error = $self->extract_error($@);
+        my $error = $self->extract_error($@, \$xml);
         for my $remedy (sort $self->remedies) {
             warn "considering $remedy\n" if $self->debug;
             $remedy->apply($self, $error, \$xml) or next;
