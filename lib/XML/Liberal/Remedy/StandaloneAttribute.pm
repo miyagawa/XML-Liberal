@@ -11,20 +11,12 @@ sub apply {
         /^parser error : Specification mandate value for attribute (\w+)/
             or return 0;
 
-    my $index = $error->location($xml_ref);
-
-    # <hr noshade />
-    #             ^
-    $index -= length($attr) + 1; # xxx is there a case that it's not 1?
-
-    my $buffer = substr($$xml_ref, $index, min(64, length($$xml_ref) - 1));
-       $buffer =~ s/^\Q$attr\E/$attr="$attr"/;
-    substr($$xml_ref, $index, length($buffer), $buffer);
-    return 1; # xxx
-
-    Carp::carp("Can't find standalone attribute '$attr', error was: ",
-               $error->summary);
-    return 0;
+    # In input like "<hr noshade />", the error location points to the slash
+    # -- the first non-whitespace character after the attribute name.  We
+    # can just insert an attribute value at that point; no need to look
+    # backwards for where the attribute name starts or ends.
+    substr $$xml_ref, $error->location($xml_ref), 0, qq[="$attr" ];
+    return 1;
 }
 
 1;
