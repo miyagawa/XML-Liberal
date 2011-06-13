@@ -1,31 +1,32 @@
 package XML::Liberal::Remedy::InvalidEncoding;
 use strict;
-use base qw( XML::Liberal::Remedy );
 
 use Encode;
 use Encode::Guess;
 
-__PACKAGE__->mk_accessors(qw( guess_encodings ));
+my $RX = qr/^(<\?xml\s+version\s*=\s*["']1\.[01]["']\s+encoding\s*=\s*["'])([^"']+)/;
 
 sub apply {
-    my $self = shift;
-    my($xml_ref) = @_;
+    my $class = shift;
+    my($driver, $error, $xml_ref) = @_;
 
-    my $encoding = ( $$xml_ref =~ /<\?xml version="1\.0" encoding="(.*?)"/ )[0];
+    return 0 if $error->message !~
+        /^(?:(?:i18n |encoding )?error : )?input conversion failed due to input error/;
+
+    my (undef, $encoding) = $$xml_ref =~ $RX;
     unless ($encoding) {
-        my @suspects = @{ $self->guess_encodings || [ qw(euc-jp shift_jis utf-8) ] };
+        my @suspects = @{ $driver->guess_encodings || [ qw(euc-jp shift_jis utf-8) ] };
         my $enc = guess_encoding($$xml_ref, @suspects);
         $encoding = $enc->name;
     }
 
     if ($encoding) {
-        Encode::from_to($$xml_ref, $encoding, "UTF-8");
-        $$xml_ref =~ s/<\?xml version="1\.0" encoding=".*?"/<?xml version="1.0" encoding="utf-8"/;
-        return 1;
+        Encode::from_to($$xml_ref, $encoding, "UTF-8"), return 1
+            if $$xml_ref =~ s/$RX/$1utf-8/;
     }
 
     Carp::carp("Can't find encoding from XML declaration: ", substr($$xml_ref, 0, 128));
-    return;
+    return 0;
 }
 
 1;

@@ -1,17 +1,17 @@
 package XML::Liberal::Remedy::NotUTF8;
 use strict;
-use base qw( XML::Liberal::Remedy );
 
 use Encode;
 use Encode::Guess;
 
-__PACKAGE__->mk_accessors(qw( guess_encodings ));
-
 sub apply {
-    my $self = shift;
-    my($xml_ref) = @_;
+    my $class = shift;
+    my($driver, $error, $xml_ref) = @_;
 
-    my @suspects = @{ $self->guess_encodings || [ qw(euc-jp shift_jis utf-8) ] };
+    return 0 if $error->message !~
+        /^parser error : Input is not proper UTF-8, indicate encoding !/;
+
+    my @suspects = @{ $driver->guess_encodings || [ qw(euc-jp shift_jis utf-8) ] };
     my $enc = guess_encoding($$xml_ref, @suspects);
     if (ref($enc)) {
         Encode::from_to($$xml_ref, $enc->name, "UTF-8");

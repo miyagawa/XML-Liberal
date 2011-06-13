@@ -1,6 +1,5 @@
 package XML::Liberal::Remedy::UndeclaredNS;
 use strict;
-use base qw( XML::Liberal::Remedy );
 
 our %namespaces = (
     rdf     => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -30,24 +29,28 @@ our %namespaces = (
     itunes  => "http://www.itunes.com/dtds/podcast-1.0.dtd",
 );
 
-sub prefix {
-    my $self = shift;
-    $self->{prefix} = shift if @_;
-    $self->{prefix};
-}
-
 sub apply {
-    my $self = shift;
-    my($xml_ref) = @_;
+    my $class = shift;
+    my($driver, $error, $xml_ref) = @_;
 
-    my $prefix = $self->prefix;
-    my $ns = $namespaces{$prefix} || "http://example.org/unknown/$self->{prefix}#";
+    my ($prefix) = $error->message =~
+        /^namespace error : Namespace prefix (\S+)(?: for \S+)? on \S+ is not defined/
+            or return 0;
 
-    my $match = $$xml_ref =~ s!^(<\?xml .*?\?>\s*<.*?)(\s*/?)>!$1 xmlns:$prefix="$ns"$2>!s;
-    return 1 if $match;
+    # If $prefix happens to have the internal SvUTF8 flag, and $$xml_ref
+    # doesn't, but $$xml_ref looks like the bytes of a UTF-8 representation,
+    # then the substitution below will effectively toggle the SvUTF8 flag on
+    # $$xml_ref, at least in some versions of Perl.  So ensure the prefix
+    # has SvUTF8 only if that's needed to represent it.
+    utf8::downgrade($prefix, 1);
 
-    Carp::carp("Can't find root element");
-    return;
+    my $ns = $namespaces{$prefix} || "http://example.org/unknown/$prefix#";
+
+    return 1 if $$xml_ref =~ s{^(<\?xml\s[^>]*?\?>\s*(?:<[!?][^>]+>\s*)*<[^\s/>]+)}
+                              {$1 xmlns:$prefix="$ns"};
+
+    Carp::carp("Can't find root element, error was: ", $error->summary);
+    return 0;
 }
 
 1;

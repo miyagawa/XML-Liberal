@@ -1,23 +1,24 @@
 package XML::Liberal::Remedy::ControlCode;
 use strict;
-use base qw( XML::Liberal::Remedy );
 
-use Encode;
+my $ERROR_RX = do {
+    my $pat = join '|', (
+        'CData section not finished',
+        'PCDATA invalid Char value \d+',
+        'Char 0x[0-9A-F]+ out of allowed range',
+    );
+    qr/^parser error : (?:$pat)/;
+};
 
-# optimized to fix all errors in one apply() call
 sub apply {
-    my $self = shift;
-    my($xml_ref) = @_;
+    my $class = shift;
+    my($driver, $error, $xml_ref) = @_;
 
-    my $string = decode_utf8($$xml_ref);
-    my $match  = $string =~ s/[\x00-\x08\x0b-\x0c\x0e-\x1f\x7f]//g;
-    if ($match) {
-        $$xml_ref = encode_utf8($string);
-        return 1;
-    }
+    return 0 if $error->message !~ $ERROR_RX;
+    return 1 if $$xml_ref =~ s/[\x00-\x08\x0b-\x0c\x0e-\x1f\x7f]+//g;
 
-    Carp::carp("Can't find control code line $self->{line}: $self->{error}");
-    return;
+    Carp::carp("Can't find control code line, error was: ", $error->summary);
+    return 0;
 }
 
 1;

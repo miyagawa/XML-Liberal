@@ -1,26 +1,28 @@
 package XML::Liberal::Remedy::LowAsciiChars;
 use strict;
-use base qw( XML::Liberal::Remedy );
+
+my @low_ascii = (0..8, 11..12, 14..31, 127);
+my $dec_rx = do {
+    my $pat = join '|', @low_ascii;
+    qr/$pat/;
+};
+my $hex_rx = do {
+    my $pat = join '|', map { sprintf '%x', $_ } @low_ascii;
+    qr/$pat/i;
+};
 
 # optimized to fix all errors in one apply() call
 sub apply {
-    my $self = shift;
-    my($xml_ref) = @_;
-    my $match = $$xml_ref =~ s{(&#(?:(\d+)|x([0-9a-f]{2,4}));)}{
-        ($2 && is_low_ascii($2)) || ($3 && is_low_ascii(hex($3)))
-            ? '' : $1;
-    }eg;
-    return 1 if $match;
+    my $class = shift;
+    my($driver, $error, $xml_ref) = @_;
 
-    Carp::carp("Can't find low ascii bytes $self->{error}");
-    return;
-}
+    return 0 if $error->message !~
+        /^parser error : xmlParseCharRef: invalid xmlChar value $dec_rx\b/;
 
-my %is_low_ascii = map { $_ => 1 } (0..8, 11..12, 14..31, 127);
+    return 1 if $$xml_ref =~ s{&#(?:0*$dec_rx|[xX]0*$hex_rx);}{}g;
 
-sub is_low_ascii {
-    my $num = shift;
-    $is_low_ascii{$num};
+    Carp::carp("Can't find low ascii bytes, error was: ", $error->summary);
+    return 0;
 }
 
 1;

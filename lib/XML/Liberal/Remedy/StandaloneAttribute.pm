@@ -1,36 +1,22 @@
 package XML::Liberal::Remedy::StandaloneAttribute;
 use strict;
-use base qw( XML::Liberal::Remedy );
 
 use List::Util qw( min );
 
-__PACKAGE__->mk_accessors(qw( attribute ));
-
 sub apply {
-    my $self = shift;
-    my($xml_ref) = @_;
+    my $class = shift;
+    my($driver, $error, $xml_ref) = @_;
 
-    my $line = $self->{line} - 1;
-    my $index = 0;
-    while ($line) {
-        $index = index($$xml_ref, "\n", $index + 1);
-        $line--;
-    }
+    my ($attr) = $error->message =~
+        /^parser error : Specification mandate value for attribute (\w+)/
+            or return 0;
 
-    $index += $self->{pos} + 1;
-
-    # <hr noshade />
-    #             ^
-    my $attr = $self->attribute;
-    $index -= length($attr) + 1; # xxx is there a case that it's not 1?
-
-    my $buffer = substr($$xml_ref, $index, min(64, length($$xml_ref) - 1));
-       $buffer =~ s/^\Q$attr\E/$attr="$attr"/;
-    substr($$xml_ref, $index, length($buffer), $buffer);
-    return 1; # xxx
-
-    Carp::carp("Can't find standalone attribute '$attr' in line $self->{line} pos $self->{pos}: $self->{error}");
-    return;
+    # In input like "<hr noshade />", the error location points to the slash
+    # -- the first non-whitespace character after the attribute name.  We
+    # can just insert an attribute value at that point; no need to look
+    # backwards for where the attribute name starts or ends.
+    substr $$xml_ref, $error->location, 0, qq[="$attr" ];
+    return 1;
 }
 
 1;

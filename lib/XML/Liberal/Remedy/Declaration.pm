@@ -1,18 +1,19 @@
 package XML::Liberal::Remedy::Declaration;
 use strict;
-use base qw( XML::Liberal::Remedy );
 
 # optimized to fix all errors in one apply() call
 sub apply {
-    my $self = shift;
-    my($xml_ref) = @_;
+    my $class = shift;
+    my($driver, $error, $xml_ref) = @_;
 
-    if ($$xml_ref =~ s/^\s+//) {
-        return 1;
-    }
+    return 0 if $error->message !~
+        /^parser error : XML declaration allowed only at the start of the document/;
 
-    Carp::carp("Can't find spaces at the start of the document.");
-    return;
+    return 1 if $$xml_ref =~ s/^\s+(?=<)//;  # s/^[^<]+//
+
+    Carp::carp("No whitespace found at the start of the document, error was: ",
+               $error->summary);
+    return 0;
 }
 
 1;

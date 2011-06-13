@@ -1,16 +1,30 @@
 package XML::Liberal::Remedy::XHTMLEmptyTag;
 use strict;
-use base qw( XML::Liberal::Remedy );
+
+use HTML::Tagset ();
+
+my @ELEMENTS = sort keys %HTML::Tagset::emptyElement;
+my $ERROR_RX = do {
+    my $pat = join '|', @ELEMENTS;
+    qr/^parser error : Opening and ending tag mismatch: (?i:$pat)/;
+};
+my $TAG_RX = do {
+    my $pat = join '|', @ELEMENTS;
+    qr{(<((?i:$pat)) (?: \s[^>]*)? ) (?<! /) (?= > (?! \s*</\2\s*>))}x;
+};
 
 # optimized to fix all errors in one apply() call
 sub apply {
-    my $self = shift;
-    my($xml_ref) = @_;
-    my $match = $$xml_ref =~ s!<(br|hr|img)(\s[^/>]*)?>!$2 ? "<$1$2 />" : "<$1 />"!eg;
-    return 1 if $match;
+    my $class = shift;
+    my($driver, $error, $xml_ref) = @_;
 
-    Carp::carp("Can't find empty <br>, <hr> nor <img> tags: line $self->{line} pos $self->{pos}: $self->{error}");
-    return;
+    return if $error->message !~ $ERROR_RX;
+
+    return 1 if $$xml_ref =~ s{$TAG_RX}{$1 /}g;
+
+    Carp::carp("Can't find XHTML empty-element tags, error was: ",
+               $error->summary);
+    return 0;
 }
 
 1;
