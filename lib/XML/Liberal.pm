@@ -2,7 +2,7 @@ package XML::Liberal;
 
 use strict;
 use 5.008_001;
-our $VERSION = '0.22';
+our $VERSION = '0.29_01';
 
 use base qw( Class::Accessor );
 use Carp;
@@ -217,6 +217,8 @@ might alter your XML content, especially bytes written in CDATA.
 =head1 AUTHOR
 
 Tatsuhiko Miyagawa E<lt>miyagawa@bulknews.netE<gt>
+
+Aaron Crane
 
 =head1 LICENSE
 

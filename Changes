@@ -1,5 +1,31 @@
 Revision history for Perl extension XML::Liberal
 
+0.29_01  Mon Jun 13 09:10:24 PDT 2011
+        Bug Fixes: 
+        - InvalidEncoding: update error-message regex
+        - HTMLEntity: ignore case in `&AMP;`
+        - XHTMLEmptyTag: accept all HTML 4 elements
+        - LowAsciiChars: fix all chars [RT#57958]; accept leading zeroes
+        - ControlCode: don't claim to handle errors it doesn't fix [RT#57500]
+        - UndeclaredNS: fix a weird Unicode edge case
+        - EntityRef: leave `&` untouched within CDATA sections
+        - UnquotedAttribute: fix missing attribute value
+        - StandaloneAttribute: allow arbitrary whitespace
+
+        New Features:
+        - UnclosedHTML: allow missing end tags for HTML-like elements
+        - TrailingDoctype: allow a `<!DOCTYPE>` declaration after root element
+        - TrailingElements: allow more elements after root element
+        - NestedCDATA: fix nested CDATA sections
+
+        Improvements:
+        - improve some error messages
+        - remove uses of `$&` [RT#59237]
+        - make remedies fully pluggable
+        - fix location reporting for XML documents with long lines
+        - add missing dependencies
+        - depend on HTML::Entities, not ...::Numbered
+
 0.22  Sat Oct  3 04:38:52 PDT 2009
         - BAD-euc.xml doesn't fail with recent libxml2 apparently(?)
 
