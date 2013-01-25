@@ -1,5 +1,8 @@
 Revision history for Perl extension XML::Liberal
 
+0.30  Thu Jan 24 21:28:14 PST 2013
+        - Make this a non-devel release
+
 0.29_01  Mon Jun 13 09:10:24 PDT 2011
         Bug Fixes: 
         - InvalidEncoding: update error-message regex
