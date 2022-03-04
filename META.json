@@ -69,7 +69,7 @@
          "web" : "https://github.com/miyagawa/XML-Liberal"
       }
    },
-   "version" : "0.30",
+   "version" : "0.31",
    "x_contributors" : [
       "Aaron Crane <arc@cpan.org>",
       "drry <drry@drry.jp>",
