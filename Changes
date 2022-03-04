@@ -1,5 +1,7 @@
 Revision history for Perl extension XML::Liberal
 
+{{$NEXT}}
+
 0.30  Thu Jan 24 21:28:14 PST 2013
         - Make this a non-devel release
 
