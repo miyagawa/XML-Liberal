@@ -32,7 +32,10 @@ my %WriteMakefileArgs = (
     "UNIVERSAL::require" => 0,
     "XML::LibXML" => "1.69_02"
   },
-  "VERSION" => "0.31",
+  "TEST_REQUIRES" => {
+    "Test::Base" => 0
+  },
+  "VERSION" => "0.32",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -50,6 +53,7 @@ my %FallbackPrereqs = (
   "HTML::Tagset" => 0,
   "List::Util" => 0,
   "Module::Pluggable::Fast" => "0.16",
+  "Test::Base" => 0,
   "UNIVERSAL::require" => 0,
   "XML::LibXML" => "1.69_02"
 );

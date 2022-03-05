@@ -55,6 +55,11 @@
             "XML::LibXML" : "1.69_02",
             "perl" : "5.008001"
          }
+      },
+      "test" : {
+         "requires" : {
+            "Test::Base" : "0"
+         }
       }
    },
    "release_status" : "stable",
@@ -69,7 +74,7 @@
          "web" : "https://github.com/miyagawa/XML-Liberal"
       }
    },
-   "version" : "0.31",
+   "version" : "0.32",
    "x_contributors" : [
       "Aaron Crane <arc@cpan.org>",
       "drry <drry@drry.jp>",
